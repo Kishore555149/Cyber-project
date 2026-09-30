@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Security quiz | Security Awareness Quiz{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">KNOWLEDGE CHECK</p>
+        <h1>Security awareness quiz</h1>
+        <p class="muted">Choose one answer for each question. Your score is saved when you submit.</p>
+    </div>
+    <span class="count-tag">{{ questions|length }} questions</span>
+</section>
+
+{% if questions %}
+<form method="post" action="{{ url_for('quiz') }}">
+    <div class="question-list">
+        {% for item in questions %}
+        <fieldset class="question-panel">
+            <legend><span class="question-number">{{ "%02d"|format(loop.index) }}</span>{{ item.question }}</legend>
+            <div class="option-grid">
+                {% for letter, option in [('A', item.option_a), ('B', item.option_b), ('C', item.option_c), ('D', item.option_d)] %}
+                <label class="option-choice">
+                    <input type="radio" name="answer_{{ item.id }}" value="{{ letter }}">
+                    <span class="option-letter">{{ letter }}</span>
+                    <span>{{ option }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </fieldset>
+        {% endfor %}
+    </div>
+    <div class="form-actions quiz-submit">
+        <a class="button button-outline" href="{{ url_for('dashboard') }}">Cancel</a>
+        <button class="button button-primary" type="submit">Submit answers <span aria-hidden="true">→</span></button>
+    </div>
+</form>
+{% else %}
+<section class="empty-state">
+    <h2>No quiz questions yet</h2>
+    <p>Add a few questions before starting a quiz.</p>
+    <a class="button button-primary" href="{{ url_for('add_question') }}">Add a question</a>
+</section>
+{% endif %}
+{% endblock %}

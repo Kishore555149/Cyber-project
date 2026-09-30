@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% if quiz_result is defined %}
+    {% set page_title = "Quiz completed" %}
+{% else %}
+    {% set page_title = "My results" %}
+{% endif %}
+{% block title %}{{ page_title }} | Security Awareness Quiz{% endblock %}
+{% block content %}
+{% if quiz_result is defined %}
+<section class="result-panel">
+    <div class="result-check" aria-hidden="true">&#10003;</div>
+    <p class="eyebrow">QUIZ COMPLETED</p>
+    <h1>Good work, {{ session.get('username', 'learner') }}.</h1>
+    <p class="muted">Every attempt is a chance to strengthen your security instincts.</p>
+    <div class="score-display">
+        <strong>{{ quiz_result.score }} <span>/ {{ quiz_result.total_questions }}</span></strong>
+        <span class="score-caption">{{ percentage }}% correct</span>
+    </div>
+    <div class="action-row centered-actions">
+        <a class="button button-primary" href="{{ url_for('dashboard') }}">Return to dashboard</a>
+        <a class="button button-outline" href="{{ url_for('quiz') }}">Try again</a>
+    </div>
+</section>
+{% else %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">YOUR PROGRESS</p>
+        <h1>Quiz results</h1>
+        <p class="muted">Your previous attempts, newest first.</p>
+    </div>
+    <a class="button button-primary" href="{{ url_for('quiz') }}">Start a quiz</a>
+</section>
+{% if quiz_results %}
+<div class="table-wrap">
+    <table>
+        <thead><tr><th>Completed</th><th>Score</th><th>Percentage</th><th></th></tr></thead>
+        <tbody>
+            {% for item in quiz_results %}
+            <tr>
+                <td>{{ item.completed_at.strftime('%b %d, %Y at %I:%M %p') }}</td>
+                <td>{{ item.score }} / {{ item.total_questions }}</td>
+                <td>{{ ((item.score / item.total_questions) * 100)|round|int if item.total_questions else 0 }}%</td>
+                <td><a class="table-link" href="{{ url_for('result', result_id=item.id) }}">View score</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<section class="empty-state">
+    <h2>No results to show</h2>
+    <p>Complete a quiz and your score will appear here.</p>
+    <a class="button button-primary" href="{{ url_for('quiz') }}">Start a quiz</a>
+</section>
+{% endif %}
+{% endif %}
+{% endblock %}

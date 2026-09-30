@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Log in | Security Awareness Quiz{% endblock %}
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-aside">
+        <p class="eyebrow">STAY ALERT. STAY SECURE.</p>
+        <h1>Make safer choices, one question at a time.</h1>
+        <p>Practice the everyday decisions that help protect your accounts, devices and information.</p>
+        <div class="aside-rule"><span></span><span></span><span></span></div>
+    </div>
+    <div class="form-panel">
+        <p class="eyebrow">YOUR LEARNING SPACE</p>
+        <h2>Welcome back</h2>
+        <p class="muted">Log in to continue your security awareness practice.</p>
+        <form method="post" class="stack-form">
+            <label for="identity">Username or email</label>
+            <input id="identity" name="identity" type="text" autocomplete="username" required>
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required>
+            <button class="button button-primary button-wide" type="submit">Log in <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="form-foot">New here? <a href="{{ url_for('register') }}">Create an account</a></p>
+    </div>
+</section>
+{% endblock %}

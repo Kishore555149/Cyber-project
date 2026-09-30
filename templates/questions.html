@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Manage questions | Security Awareness Quiz{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">QUESTION BANK</p>
+        <h1>Manage questions</h1>
+        <p class="muted">Add, review or update the questions used in the quiz.</p>
+    </div>
+    <a class="button button-primary" href="{{ url_for('add_question') }}"><span aria-hidden="true">+</span> Add question</a>
+</section>
+
+{% if questions %}
+<div class="table-wrap">
+    <table class="question-table">
+        <thead><tr><th>ID</th><th>Question</th><th>Correct answer</th><th>Actions</th></tr></thead>
+        <tbody>
+            {% for item in questions %}
+            <tr>
+                <td class="id-cell">{{ item.id }}</td>
+                <td>{{ item.question }}</td>
+                <td><span class="answer-tag">{{ item.correct_answer }}</span></td>
+                <td>
+                    <div class="table-actions">
+                        <a class="table-link" href="{{ url_for('edit_question', question_id=item.id) }}">Edit</a>
+                        <form method="post" action="{{ url_for('delete_question', question_id=item.id) }}" onsubmit="return confirm('Delete this question?')">
+                            <button class="text-danger" type="submit">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<section class="empty-state">
+    <h2>The question bank is empty</h2>
+    <p>Add a question to make it available in future quizzes.</p>
+    <a class="button button-primary" href="{{ url_for('add_question') }}">Add a question</a>
+</section>
+{% endif %}
+{% endblock %}

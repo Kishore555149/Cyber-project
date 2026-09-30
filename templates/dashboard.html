@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Security Awareness Quiz{% endblock %}
+{% block content %}
+<section class="page-heading dashboard-heading">
+    <div>
+        <p class="eyebrow">LEARNER DASHBOARD</p>
+        <h1>Welcome, {{ session.get('username', 'learner') }}</h1>
+        <p class="muted">A little awareness goes a long way. Pick up where you left off.</p>
+    </div>
+    <a class="button button-primary" href="{{ url_for('quiz') }}">Start a quiz <span aria-hidden="true">→</span></a>
+</section>
+
+<section class="stats-grid" aria-label="Your quiz statistics">
+    <article class="stat-panel stat-accent">
+        <span class="stat-label">QUESTIONS AVAILABLE</span>
+        <strong class="stat-value">{{ total_questions }}</strong>
+        <span class="stat-caption">Ready to practice</span>
+    </article>
+    <article class="stat-panel">
+        <span class="stat-label">QUIZZES COMPLETED</span>
+        <strong class="stat-value">{{ quiz_count }}</strong>
+        <span class="stat-caption">Your practice sessions</span>
+    </article>
+    <article class="stat-panel">
+        <span class="stat-label">LATEST SCORE</span>
+        {% if latest_result %}
+            <strong class="stat-value">{{ latest_result.score }}<small> / {{ latest_result.total_questions }}</small></strong>
+            <span class="stat-caption">{{ latest_result.completed_at.strftime('%b %d, %Y') }}</span>
+        {% else %}
+            <strong class="stat-value stat-empty">--</strong>
+            <span class="stat-caption">Take your first quiz</span>
+        {% endif %}
+    </article>
+</section>
+
+<section class="dashboard-links">
+    <div>
+        <p class="eyebrow">KEEP BUILDING YOUR SKILLS</p>
+        <h2>Practice and keep track</h2>
+    </div>
+    <div class="action-row">
+        <a class="button button-outline" href="{{ url_for('results') }}">View results</a>
+        <a class="button button-outline" href="{{ url_for('questions') }}">Manage questions</a>
+    </div>
+</section>
+{% endblock %}

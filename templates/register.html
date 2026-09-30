@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Create account | Security Awareness Quiz{% endblock %}
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-aside">
+        <p class="eyebrow">A BETTER SECURITY HABIT</p>
+        <h1>Build confidence against everyday threats.</h1>
+        <p>Create a learner account to take quizzes, track your scores and contribute questions.</p>
+        <div class="aside-rule"><span></span><span></span><span></span></div>
+    </div>
+    <div class="form-panel">
+        <p class="eyebrow">GET STARTED</p>
+        <h2>Create your account</h2>
+        <p class="muted">All fields are required. Your password is stored as a secure hash.</p>
+        <form method="post" class="stack-form">
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" maxlength="50" autocomplete="username" required>
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" maxlength="100" autocomplete="email" required>
+            <label for="password">Password <span class="label-note">6 characters minimum</span></label>
+            <input id="password" name="password" type="password" minlength="6" autocomplete="new-password" required>
+            <button class="button button-primary button-wide" type="submit">Create account <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="form-foot">Already registered? <a href="{{ url_for('login') }}">Log in</a></p>
+    </div>
+</section>
+{% endblock %}

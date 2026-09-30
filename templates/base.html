@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Security Awareness Quiz{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="{{ url_for('index') }}">
+            <span class="brand-mark" aria-hidden="true">S</span>
+            <span>Security Awareness <strong>Quiz</strong></span>
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('questions') }}">Questions</a>
+                <a href="{{ url_for('results') }}">My results</a>
+                <form class="nav-form" action="{{ url_for('logout') }}" method="post">
+                    <button class="nav-logout" type="submit">Log out</button>
+                </form>
+            {% else %}
+                <a href="{{ url_for('login') }}">Log in</a>
+                <a class="nav-register" href="{{ url_for('register') }}">Create account</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="page-shell">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-list" aria-live="polite">
+                    {% for category, message in messages %}
+                        <p class="flash flash-{{ category }}">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">Cybersecurity Security Awareness Quiz System <span>·</span> Local learning project</footer>
+</body>
+</html>

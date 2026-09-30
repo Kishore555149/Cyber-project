@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Edit question | Security Awareness Quiz{% endblock %}
+{% block content %}
+<section class="page-heading compact-heading">
+    <div><p class="eyebrow">QUESTION {{ question.id }}</p><h1>Edit question</h1></div>
+    <a class="button button-outline" href="{{ url_for('questions') }}">Back to questions</a>
+</section>
+<form method="post" class="editor-panel">
+    <div class="stack-form">
+        <label for="question">Question</label>
+        <textarea id="question" name="question" rows="3" required>{{ question.question }}</textarea>
+        <div class="option-edit-grid">
+            {% for letter, field in [('A', 'option_a'), ('B', 'option_b'), ('C', 'option_c'), ('D', 'option_d')] %}
+            <div>
+                <label for="{{ field }}">Option {{ letter }}</label>
+                <input id="{{ field }}" name="{{ field }}" type="text" maxlength="255" value="{{ question[field] }}" required>
+            </div>
+            {% endfor %}
+        </div>
+        <label for="correct_answer">Correct answer</label>
+        <select id="correct_answer" name="correct_answer" required>
+            {% for letter in ['A', 'B', 'C', 'D'] %}
+            <option value="{{ letter }}" {% if question.correct_answer == letter %}selected{% endif %}>{{ letter }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-actions">
+        <a class="button button-outline" href="{{ url_for('questions') }}">Cancel</a>
+        <button class="button button-primary" type="submit">Save changes</button>
+    </div>
+</form>
+{% endblock %}
